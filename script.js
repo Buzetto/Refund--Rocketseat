@@ -7,6 +7,7 @@ const category = document.getElementById("category");
 
 //Seleciona os elementos da lista
 const expenseList = document.querySelector("ul");
+const expensesQuantity = document.querySelector("aside header p span");
 
 // Capturando o evento de input do valor para formatar somente em numero
 amount.oninput = () => {
@@ -50,6 +51,7 @@ form.onsubmit = (event) => {
     expenseAdd(newExpense);
 }
 
+//Adiciona um novo item na lista de despesa
 function expenseAdd(newExpense) {
     try {
         //Cria o elemento li para adicionar o item na lista (ul)
@@ -79,22 +81,41 @@ function expenseAdd(newExpense) {
         //Adiciona as informações no item.
         expenseItem.append(expenseIcon);
 
+        //Criar o valor da despesa
+        const expenseAmount = document.createElement("span");
+        expenseAmount.classList.add("expense-amount");
+        expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$", "")}`;
+
         //Cria o ícone de remover
         removeIcon = document.createElement('img');
         removeIcon.classList.add('remove-icon');
         removeIcon.setAttribute('src', 'img/remove.svg');
         removeIcon.setAttribute('alt', 'remover');
 
-        //Criar o valor da despesa
-        const expenseAmount = document.createElement("span");
-        expenseAmount.classList.add("expense-amount");
-        expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$", "")}`;
-
         //Adiciona o item na lista
         expenseList.append(expenseItem, expenseInfo, expenseAmount, removeIcon);
+
+        //Atualiza os totais
+        updateTotals();
 
     } catch (error) {
         alert("Não foi possível atualizar a lista de despesa")
         console.log(error)
     }
 }
+
+//Atualiza os totais 
+function updateTotals () {
+    try {
+        //Recupera todos os itens (li) da lista (ul)
+        const items = expenseList.children
+
+        //Atualiza a quantidade de itens da list
+        expensesQuantity.textContent = `${items.length} ${items.length > 1 ? "despesas" : "despesa"}`;
+
+    } catch (error) {
+        console.log(error);
+        alert('Não foi possível atualizar os totais')
+    }
+}
+
