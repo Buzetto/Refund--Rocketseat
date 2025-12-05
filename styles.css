@@ -225,7 +225,7 @@ aside ul {
   margin-right: 0.75rem;
 }
 
-.expense > div {
+.expense-info {
   display: flex;
   flex-direction: column;
   flex: 1;
